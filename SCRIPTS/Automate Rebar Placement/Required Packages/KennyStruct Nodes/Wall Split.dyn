@@ -1,0 +1,142 @@
+{
+  "Uuid": "6b40bc1a-fecb-4fc4-8663-db7cbf241e51",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Wall Split",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "9c3f124ffc79466dba443d4dfa47fa28",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b3a47b89609344b881e29df128e4cd78",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "aebb095f-4d64-48ae-9eb2-a0068600d51d",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "d034d6293c954d66b0f6af236c336d5e",
+      "Inputs": [
+        {
+          "Id": "18a9c5df2d794c62b8a59df435db5246",
+          "Name": "RunScript",
+          "Description": "Specify if you want to run this script using a Boolean node\n\nbool",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "002e3a53eb804b2a860b22d1bf13e103",
+          "Name": "SplittedWalls",
+          "Description": "Spltted wall elements grouped by levels",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9a5cb4ea849346e8acb2e6a41aaff0e6",
+          "Name": "WasRun",
+          "Description": "Specifies if the script was run",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e62a4a76a1d248ec8e988fb298076edc",
+          "Name": "WasCancelled",
+          "Description": "Specifies if the script was cancelled",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Split selected walls by project levels"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "b3a47b89609344b881e29df128e4cd78",
+      "End": "18a9c5df2d794c62b8a59df435db5246",
+      "Id": "f992104d9d6643458d7294a730c1230c"
+    }
+  ],
+  "Dependencies": [
+    "aebb095f-4d64-48ae-9eb2-a0068600d51d"
+  ],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "9c3f124ffc79466dba443d4dfa47fa28",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1934.5516021950432,
+        "Y": 996.43220383357141
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SplitSelectedWallsByLevels",
+        "Id": "d034d6293c954d66b0f6af236c336d5e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2131.2437626637984,
+        "Y": 1001.1191484746892
+      }
+    ],
+    "Annotations": [],
+    "X": -1471.2898355332225,
+    "Y": -465.8275247681953,
+    "Zoom": 0.828490937261514
+  }
+}
