@@ -1,0 +1,312 @@
+{
+  "Uuid": "32c9a6ad-69e5-45f1-8259-be33e6cdf110",
+  "IsCustomNode": true,
+  "Category": "KennyStruct Nodes.Revit",
+  "Description": "Converts Revit geometry to dynamo geometry and extracts all the surfaces in the geometry",
+  "Name": "SAT-Dynamo_Surface_Geometry",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Elements.Element": {
+        "Key": "Revit.Elements.Element",
+        "Value": "RevitNodes.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Flatten@var[]..[],int",
+      "Id": "826b9a65a4e14062a722b7fae883ba52",
+      "Inputs": [
+        {
+          "Id": "3d3304438e1542c7b61522e000bc6eb5",
+          "Name": "list",
+          "Description": "List to flatten.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f8c34800fcdc4a76830dc42a1dec13ab",
+          "Name": "amt",
+          "Description": "Layers of nesting to remove.\n\nint\nDefault value : -1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8a33816f232047a4ab85e9cb1b38f37d",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Flattens a nested list of lists by a certain amount.\n\nList.Flatten (list: var[]..[], amt: int = -1): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.Geometry",
+      "Id": "2ca822c608304848929801abe5d88460",
+      "Inputs": [
+        {
+          "Id": "a43dfaec61604c2ca579d6df6e645f2d",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d19edb6a512e4bd48b211ef1ed1949c1",
+          "Name": "var[]",
+          "Description": "var[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get all of the Geometry associated with this object\n\nElement.Geometry ( ): var[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "List.RemoveIfNot@var[]..[],string",
+      "Id": "db9600398be148979fd31c4b5c84a085",
+      "Inputs": [
+        {
+          "Id": "ea440fb126b442888d2989b8f5bfb10c",
+          "Name": "list",
+          "Description": "list of values\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a7e6818bba0043a98a1947338ebde7e5",
+          "Name": "type",
+          "Description": "type of element\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "84e7f58055ef487e9c7570c2bb707398",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Removes the members of the list which are not members of the specified type.\n\nList.RemoveIfNot (list: var[]..[], type: string): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "Surface",
+      "Id": "1624c858bcb44b9789c51a71dffef5e6",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "11a6e4a536dc4414b69de072a765e4c9",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "RevitElement",
+        "TypeName": "Revit.Elements.Element",
+        "TypeRank": 0,
+        "DefaultValue": null,
+        "Description": "select revit model element"
+      },
+      "Id": "314923cafaea4f939eb1ede6cbcc2ed9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4350957bda27468c9f98cb4c30ba91a4",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "//All surfaces from the selected revit element geometry\r\nGeometrySurfaces: var[]..[]",
+      "Id": "db7e019e26d44c4cba6deaa0d050cf0d",
+      "Inputs": [
+        {
+          "Id": "abf5431560134da8b667abb306a813e9",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "8a33816f232047a4ab85e9cb1b38f37d",
+      "End": "ea440fb126b442888d2989b8f5bfb10c",
+      "Id": "8bd0eba7b1a542a18c5f533631ae751f"
+    },
+    {
+      "Start": "d19edb6a512e4bd48b211ef1ed1949c1",
+      "End": "3d3304438e1542c7b61522e000bc6eb5",
+      "Id": "808821051c69453e9fd5577982886889"
+    },
+    {
+      "Start": "84e7f58055ef487e9c7570c2bb707398",
+      "End": "abf5431560134da8b667abb306a813e9",
+      "Id": "d5bd5538ddd24f6498e250d6ae6de7b4"
+    },
+    {
+      "Start": "11a6e4a536dc4414b69de072a765e4c9",
+      "End": "a7e6818bba0043a98a1947338ebde7e5",
+      "Id": "06108128b3e147409798ee4dc61bac36"
+    },
+    {
+      "Start": "4350957bda27468c9f98cb4c30ba91a4",
+      "End": "a43dfaec61604c2ca579d6df6e645f2d",
+      "Id": "bf0ff43dbafd4d3f9b3d168e29a49441"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -157706.78774033851,
+      "EyeY": 291551.3459719026,
+      "EyeZ": 98695.243431369265,
+      "LookX": 161706.78774033851,
+      "LookY": -173821.6115969026,
+      "LookZ": -100695.24343136926,
+      "UpX": 0.42443681252002785,
+      "UpY": 0.86602540378443671,
+      "UpZ": -0.26429792314325462
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "List.Flatten",
+        "Id": "826b9a65a4e14062a722b7fae883ba52",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 525.34710396218622,
+        "Y": 3.0539525594061558
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Element.Geometry",
+        "Id": "2ca822c608304848929801abe5d88460",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 182.09975944331552,
+        "Y": -4.1784763419498177
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.RemoveIfNot",
+        "Id": "db9600398be148979fd31c4b5c84a085",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 878.56001168331466,
+        "Y": 119.6054955618504
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "String",
+        "Id": "1624c858bcb44b9789c51a71dffef5e6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 528.61311122557765,
+        "Y": 248.88314877110295
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "314923cafaea4f939eb1ede6cbcc2ed9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -245.48548508955162,
+        "Y": 1.0446190854873976
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "db7e019e26d44c4cba6deaa0d050cf0d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1217.8172049238988,
+        "Y": 40.740144334010722
+      }
+    ],
+    "Annotations": [],
+    "X": 213.85784175007359,
+    "Y": 200.23381793239466,
+    "Zoom": 0.721395744756141
+  }
+}
