@@ -1,0 +1,368 @@
+{
+  "Uuid": "db80d46b-80de-4983-949f-46a5baf93f6b",
+  "IsCustomNode": true,
+  "Category": "KennyStruct Nodes.Revit",
+  "Description": "Split Revit Wall Elements by all Associated Levels within the Document",
+  "Name": "SplitWallsByLevel(All Walls)",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Category": {
+        "Key": "Revit.Elements.Category",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Elements.Category": {
+        "Key": "Revit.Elements.Category",
+        "Value": "RevitNodes.dll"
+      },
+      "Wall": {
+        "Key": "Revit.Elements.Wall",
+        "Value": "RevitNodes.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\n \nclr.AddReference(\"RevitServices\")\nimport RevitServices\nfrom RevitServices.Persistence import DocumentManager\nfrom RevitServices.Transactions import TransactionManager\ndoc =  DocumentManager.Instance.CurrentDBDocument\n \nclr.AddReference(\"RevitNodes\")\nimport Revit\nclr.ImportExtensions(Revit.Elements)\nclr.ImportExtensions(Revit.GeometryConversion)\n \nclr.AddReference(\"RevitAPI\")\nfrom Autodesk.Revit.DB import *\n \nimport System\nfrom System.Collections.Generic import *\n \n############## Definitions Start ##############\n# Convert to List if singleton...\ndef tolist(obj1):\n    if hasattr(obj1,\"__iter__\"): return obj1\n    else: return [obj1]\n     \n# Returns the index of the found level given a Level and a list of Levels...\ndef FindLevelIndex(levels, lev):\n    ind = None\n    i = 0\n    for l in levels:\n        if l.Id.ToString() == lev.Id.ToString():\n            ind = i\n        i = i+1\n    return ind\n \n# Copy the original wall and set it's levels using the Built-In Parameters for the Base and Top Constraints...\ndef CopyWallByLevel(wall, b, t):\n    wallOut = None\n    try:\n        # Copy the Original Wall with a transformation vector of 0,0,0...\n        w = ElementTransformUtils.CopyElement(doc,wall.Id,XYZ(0,0,0))\n        # Since the CopyElements method returns the ElementId of the new wall we need to get this Element from the Document...\n        w = doc.GetElement(w[0])\n        # Update the Base and Top constraints Parameters using the Built-In Parameters.\n        # Note: I have explicitly chosen the Overload as I was getting flaky behaviour where the wrong overload was being used...\n        p = w.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT)\n        p.Set.Overloads.Functions[2](b.Id)\n        p = w.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE)\n        p.Set.Overloads.Functions[2](t.Id)\n        wallOut = w.ToDSType(True)\n    # Write out any exceptions...\n    except Exception, e:\n        wallOut = e.message\n    # Return new wall..\n    return wallOut    \n############## Definitions End ##############\n \n# IN-Variables...\nrun = tolist(IN[0])[0]\nwalls = tolist(UnwrapElement(IN[1]))\n \n# OUT-Variables...\noutList = []\n \n# Main Script...\n# Test if user has selected Run as True...\nif run:\n    # Get All Levels in the Document and cast to .net List...\n    levels = list([l for l in FilteredElementCollector(doc).OfClass(Level).ToElements()])\n    # Sort Levels by Elevation using a lamda expression...\n    levels.sort(key=lambda x: x.Elevation, reverse=False)\n     \n    # Start a new Transaction ready for modifying the Document...\n    TransactionManager.Instance.EnsureInTransaction(doc)\n    for w in walls:\n        arr = []\n        # Check if the Element is a Wall...\n        if w.GetType() == Wall:\n            # Get Base and Top Constraints as Levels...\n            p = w.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT)\n            base = doc.GetElement(p.AsElementId())\n            p = w.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE)\n            top = doc.GetElement(p.AsElementId())\n            \n            # Test whether walls Base and Top levels are NOT the same, if they are we will skip this wall, if they are not then we will get the Index of the Level in the sorted list of Levels we collected earlier for both the Base and Top of the wall...\n            if not base.Id.IntegerValue == top.Id.IntegerValue:\n                # Note: we are setting the bounds of the Loop below with the Indices of the found Levels so we will only loop through the Levels in between the Base and Top Levels...            \n                i = FindLevelIndex(levels,base)\n                j = FindLevelIndex(levels,top)\n                \n                # Loop through the Levels between the Base and Top Levels copying the original wall for each iteration and stepping up one Level...\n                while i < j:\n                    wCopy = CopyWallByLevel(w,levels[i], levels[i+1])\n                    arr.append(wCopy)    \n                    i = i+1\n                outList.append(arr)\n                # Delete original Wall as this has now been split by Level...\n                doc.Delete(w.Id)\n    # End the Transaction...\n    TransactionManager.Instance.TransactionTaskDone()\n    # Return the new Walls...\n    OUT = outList\n# Return if user has not set input Run to True...\nelse:\n    OUT = \"Please Set Run to True\"",
+      "VariableInputPorts": true,
+      "Id": "51624576f84f4db089f0139f8c460e43",
+      "Inputs": [
+        {
+          "Id": "cf9a690f5c7342e78977f9f635d0e5ae",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a6568f430a144fd79dbe47cee44b4ac9",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "689ae9c8fcb340768eed6e0686326da9",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "Run;\nWalls;",
+      "Id": "846b2bbf5c224653a828a8b2eccfb1c1",
+      "Inputs": [
+        {
+          "Id": "780800131b8c4d179a60c94996688ab3",
+          "Name": "Run",
+          "Description": "Run",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ce052f76b17e484da4b9d7e2aaf96888",
+          "Name": "Walls",
+          "Description": "Walls",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "26ea9f96b0214980913f86f7c036be27",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "31643ee105fe44ba9305683567430185",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "Run",
+        "TypeName": "bool",
+        "TypeRank": 0,
+        "DefaultValue": "false",
+        "Description": "Choose if you want to run the script or not"
+      },
+      "Id": "d3ac96a20f424ecaad3b7a0301d27ded",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c61341396bee4fb795d4647e6a009031",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "//Spltted wall elements grouped by levels\r\nSplittedWalls",
+      "Id": "f41d83ddfd084e7d804473d099385523",
+      "Inputs": [
+        {
+          "Id": "4aef831d815a40aa87d25ae62babebff",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "6ccb4580e90c4fefbb97246be6813a34",
+      "Inputs": [
+        {
+          "Id": "a89207e8abe148208ca8eab8d4c7c457",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "76a783c9a28c4297aa23f06a329ce687",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 610,
+      "SelectedString": "OST_Walls",
+      "NodeType": "ExtensionNode",
+      "Id": "24db80a17a2646f7bcd7805b24bd3307",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b2b46b3348dd4f57983b91ad8f277563",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "689ae9c8fcb340768eed6e0686326da9",
+      "End": "4aef831d815a40aa87d25ae62babebff",
+      "Id": "c06387e95dc2437899afabb88f3e8f5a"
+    },
+    {
+      "Start": "26ea9f96b0214980913f86f7c036be27",
+      "End": "cf9a690f5c7342e78977f9f635d0e5ae",
+      "Id": "1c1c14630aca4ebaaec6ffe8430821be"
+    },
+    {
+      "Start": "31643ee105fe44ba9305683567430185",
+      "End": "a6568f430a144fd79dbe47cee44b4ac9",
+      "Id": "be5273a4e7a242b7a1ef4fb33884694f"
+    },
+    {
+      "Start": "c61341396bee4fb795d4647e6a009031",
+      "End": "780800131b8c4d179a60c94996688ab3",
+      "Id": "629a9e7fd13d43bc807c34006018ae9e"
+    },
+    {
+      "Start": "76a783c9a28c4297aa23f06a329ce687",
+      "End": "ce052f76b17e484da4b9d7e2aaf96888",
+      "Id": "7327c528b3df4bf49ea3337a60d26a97"
+    },
+    {
+      "Start": "b2b46b3348dd4f57983b91ad8f277563",
+      "End": "a89207e8abe148208ca8eab8d4c7c457",
+      "Id": "af7636bba593457d9946356562773763"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "Id": "51624576f84f4db089f0139f8c460e43",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Wall Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 799.79675350971536,
+        "Y": 45.53719708166247
+      },
+      {
+        "Id": "846b2bbf5c224653a828a8b2eccfb1c1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 575.79675350971536,
+        "Y": 53.963863748329146
+      },
+      {
+        "Id": "d3ac96a20f424ecaad3b7a0301d27ded",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": -226.20324649028464,
+        "Y": 19.344866091746027
+      },
+      {
+        "Id": "f41d83ddfd084e7d804473d099385523",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1034.5967535097152,
+        "Y": 45.537197081662477
+      },
+      {
+        "Id": "6ccb4580e90c4fefbb97246be6813a34",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "All Elements of Category",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 301.39675350971538,
+        "Y": 67.323863748329131
+      },
+      {
+        "Id": "24db80a17a2646f7bcd7805b24bd3307",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Categories",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": -73.078376591172628,
+        "Y": 101.55951143153413
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "47cfdb22dd48483a827c4ce27a11939f",
+        "Title": "",
+        "Nodes": [
+          "d3ac96a20f424ecaad3b7a0301d27ded"
+        ],
+        "Left": -236.20324649028464,
+        "Top": -33.855133908253976,
+        "Width": 437.6,
+        "Height": 130.60000000000002,
+        "FontSize": 36.0,
+        "InitialTop": 19.344866091746027,
+        "InitialHeight": 223.38466197983286,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFF7BAC"
+      },
+      {
+        "Id": "b3e4fa05482d41f6969ea931f929e54d",
+        "Title": "",
+        "Nodes": [
+          "f41d83ddfd084e7d804473d099385523"
+        ],
+        "Left": 1024.5967535097152,
+        "Top": -7.6628029183375261,
+        "Width": 388.0,
+        "Height": 130.60000000000002,
+        "FontSize": 36.0,
+        "InitialTop": 45.537197081662477,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFFAA45"
+      }
+    ],
+    "X": 238.04951181275948,
+    "Y": 81.1483987794872,
+    "Zoom": 0.90627968494062672
+  }
+}
