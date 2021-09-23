@@ -1,0 +1,342 @@
+{
+  "Uuid": "82338120-924c-4892-920d-3597c8c8b422",
+  "IsCustomNode": true,
+  "Category": "KennyStruct Nodes.Geometry",
+  "Description": "",
+  "Name": "GeometryCentroid_Elevation",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Autodesk.Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "Points": {
+        "Key": "Geometry.Points",
+        "Value": "Spring.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "//Centroid Points\r\nCentroidPoints: Points",
+      "Id": "9a2f9800869a422990dc9d97d3da2790",
+      "Inputs": [
+        {
+          "Id": "86bc55384a52473c95a334c9d78118e3",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "119fed50-cf6e-435e-9841-59ee18cb7d50",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "48e13e958cf345cb86a54d883b6b6793",
+      "Inputs": [
+        {
+          "Id": "f35045f5475248738103d27d8fedd7aa",
+          "Name": "boundingBox",
+          "Description": "BoundingBox",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cb104249d1a44a8cbd312c49da87f190",
+          "Name": "Centroid",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8f2b5b8e9f3449cca14af475a71ea12c",
+          "Name": "Width",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "422fda193a0a47bb93e3f9566a420d1f",
+          "Name": "Depth",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "411576b890fc4743a7728027744ad899",
+          "Name": "Height",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves the centroid, width, depth and height of a given bounding box"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.BoundingBox",
+      "Id": "183416ad942941629f171186a349fc26",
+      "Inputs": [
+        {
+          "Id": "166c36fe8a004475bc334c9fb626f133",
+          "Name": "geometry",
+          "Description": "Autodesk.DesignScript.Geometry.Geometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c284517ca1934ff18fe3cb5bc53d3443",
+          "Name": "BoundingBox",
+          "Description": "BoundingBox",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the BoundingBox containing the given piece of Geometry\n\nGeometry.BoundingBox: BoundingBox"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Point.Z",
+      "Id": "df3a9bd161c247be81fb7495c4949584",
+      "Inputs": [
+        {
+          "Id": "4645c722df29445bbe61d2df2a62318a",
+          "Name": "point",
+          "Description": "Autodesk.DesignScript.Geometry.Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "828b92510f7e4b299ebd9e0b7cd7586e",
+          "Name": "double",
+          "Description": "double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the Z component of a Point\n\nPoint.Z: double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "Geometry_",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "fe9cb4f597bf47ecaa80ef90db40274b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "bb689a895cae46c99adfd51eb31f51c1",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "//Geometry elevation in the Z-axis\r\nElevation: double",
+      "Id": "a17144caf18c44aca2da2f8dfc58019d",
+      "Inputs": [
+        {
+          "Id": "dc870a928e1f49439a34f37e8da40b82",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "cb104249d1a44a8cbd312c49da87f190",
+      "End": "4645c722df29445bbe61d2df2a62318a",
+      "Id": "ba71a4d5ec494a3f9601f28b12916235"
+    },
+    {
+      "Start": "cb104249d1a44a8cbd312c49da87f190",
+      "End": "86bc55384a52473c95a334c9d78118e3",
+      "Id": "9ad84aa227d341a1af0b23027512c432"
+    },
+    {
+      "Start": "c284517ca1934ff18fe3cb5bc53d3443",
+      "End": "f35045f5475248738103d27d8fedd7aa",
+      "Id": "1a0fc957fb0b4163804acb26dc7fc142"
+    },
+    {
+      "Start": "828b92510f7e4b299ebd9e0b7cd7586e",
+      "End": "dc870a928e1f49439a34f37e8da40b82",
+      "Id": "0ca8d47434ed46249689ab3fe73a2d98"
+    },
+    {
+      "Start": "bb689a895cae46c99adfd51eb31f51c1",
+      "End": "166c36fe8a004475bc334c9fb626f133",
+      "Id": "58a85e4f2dab45c4a192a1ff3aafd4f7"
+    }
+  ],
+  "Dependencies": [
+    "119fed50-cf6e-435e-9841-59ee18cb7d50"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Clockwork for Dynamo 2.x",
+      "Version": "2.3.0",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "48e13e958cf345cb86a54d883b6b6793"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1361.1141017191655,
+      "EyeY": 97.932569755202081,
+      "EyeZ": 565.98326333559146,
+      "LookX": -285.86886995674536,
+      "LookY": -79.473140820520172,
+      "LookZ": -309.67625835492515,
+      "UpX": 0.020125276108935074,
+      "UpY": 0.999559779592716,
+      "UpZ": 0.021799629081690163
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "9a2f9800869a422990dc9d97d3da2790",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1685.1469057765339,
+        "Y": 203.2828291478836
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "BoundingBox.Properties",
+        "Id": "48e13e958cf345cb86a54d883b6b6793",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1049.4864998228732,
+        "Y": 60.545862498379392
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Geometry.BoundingBox",
+        "Id": "183416ad942941629f171186a349fc26",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 752.30821812045906,
+        "Y": 36.206535915712266
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Point.Z",
+        "Id": "df3a9bd161c247be81fb7495c4949584",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1369.5215159695872,
+        "Y": 0.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "fe9cb4f597bf47ecaa80ef90db40274b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 250.0,
+        "Y": 22.819499715378697
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "a17144caf18c44aca2da2f8dfc58019d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1680.3755518765975,
+        "Y": 11.699417046559574
+      }
+    ],
+    "Annotations": [],
+    "X": -3721.7337025529623,
+    "Y": -34.952282134916345,
+    "Zoom": 2.4556345591657895
+  }
+}
