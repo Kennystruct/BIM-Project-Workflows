@@ -3,3 +3,13 @@
 3. Rhythm (2021.4.2)
 4. BIM4Struc.Rebar (1.2.4)
 5. KennyStruct Nodes (0.0.1) - Provided in Github
+
+NOTE: All required packages from nos. 1-4 can be downloaded
+from the packages menu inside of Dynamo except for the last which
+was customized by me. I have provided it in the required
+packages folder.
+
+Thanks and Enjoy!!!
+
+
+Feel free to comment
