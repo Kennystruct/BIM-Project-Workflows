@@ -1,0 +1,481 @@
+{
+  "Uuid": "4ac57f80-0276-4309-b0fb-0f1137d1fdd5",
+  "IsCustomNode": true,
+  "Category": "KennyStruct Nodes.Revit",
+  "Description": "Set rebar as both solid and unobscured in current view",
+  "Name": "SetRebarAsSolidUnobscured",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "Category": {
+        "Key": "Revit.Elements.Category",
+        "Value": "RevitNodes.dll"
+      },
+      "Elements.Element": {
+        "Key": "Revit.Elements.Element",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Document.Current": {
+        "Key": "Revit.Application.Document",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Document": {
+        "Key": "Revit.Application.Document",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Application.Document.Current": {
+        "Key": "Revit.Application.Document",
+        "Value": "RevitNodes.dll"
+      },
+      "Revit.Application.Document": {
+        "Key": "Revit.Application.Document",
+        "Value": "RevitNodes.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "StructuralDesign.Rebar.Create.SetSolidInView@Revit.Elements.Element,Revit.Elements.Views.View3D,bool",
+      "Id": "f28316533924426b84396e4bf2581b85",
+      "Inputs": [
+        {
+          "Id": "51f85dc4ef6848f7b610dc3482d651e9",
+          "Name": "rebar",
+          "Description": "Rebar Element.\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "91b66180cc554b0c8e1967ac052ecb49",
+          "Name": "view",
+          "Description": "The 3D view element.\n\nView3D",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6de54cab35674d518c6ab33f356494a9",
+          "Name": "solid",
+          "Description": "True if rebar is shown solidly, false otherwise.\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2374fc76a5da42d2b1a4316d6a28eff7",
+          "Name": "Rebar",
+          "Description": "Rebar Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Sets this rebar element to be shown solidly in a 3D view.\n\nCreate.SetSolidInView (rebar: Element, view: View3D, solid: bool = true): Element"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "StructuralDesign.Rebar.Create.SetUnobscuredInView@Revit.Elements.Element,Revit.Elements.Views.View,bool",
+      "Id": "701e9db3a4354a618bbedfb6b03f14d6",
+      "Inputs": [
+        {
+          "Id": "e19c2fb1c772479db4307e50c8ff8859",
+          "Name": "rebar",
+          "Description": "Rebar Element.\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "243c77f17db04c2282fd3c6e14a67736",
+          "Name": "view",
+          "Description": "The view element.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e936b33828b54e31b31219e49090b383",
+          "Name": "unobscured",
+          "Description": "True if rebar is shown unobscured, false otherwise.\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6cef9f7ee5134105817306af7f48707d",
+          "Name": "Rebar",
+          "Description": "Rebar Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Sets this rebar element to be shown unobscured in a view.\n\nCreate.SetUnobscuredInView (rebar: Element, view: View, unobscured: bool = true): Element"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "e638d27b8cf547aa98fc8731a4edb2cc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "bf0d8fab597c456a93b2543aee16868f",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "rebar",
+        "TypeName": "Revit.Elements.Element",
+        "TypeRank": 0,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "87a90aeee604491386baa1ae9ace56fd",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "53068f6b6bba44e49b076cc31edb830d",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "Rebar",
+      "Id": "ee71deb739824cd5ae2c1340d439ca88",
+      "Inputs": [
+        {
+          "Id": "00ccfb2e1dab4fd787a9a405e7957436",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Logic.If, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "eccfe7e0fd8e481bbe2e74de31ffbde9",
+      "Inputs": [
+        {
+          "Id": "61c93f4326854a449ed62409de859bd8",
+          "Name": "test",
+          "Description": "Test block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "aec8913e33a94d82bb70e1d2d57586bf",
+          "Name": "true",
+          "Description": "True block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "25942660c348482fb208f8c68235144f",
+          "Name": "false",
+          "Description": "False block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0903ceb2c744410ea2bb9bf9b263aeca",
+          "Name": "result",
+          "Description": "result",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Conditional statement"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "document1 = Revit.Document.Current;\nRevit.Document.ActiveView(document1);",
+      "Id": "47cf88b1b7db4079a1927d53592b3372",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4ae7f4a0b5104888a04a5c84a0a3e27a",
+          "Name": "",
+          "Description": "document1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4d3497fcdf2048c899fa6b0c7b136438",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "refresh",
+        "TypeName": "bool",
+        "TypeRank": 0,
+        "DefaultValue": "true",
+        "Description": ""
+      },
+      "Id": "38cead7f4f91414fac4fed3eebad0bc2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "721f7048f8044f909ebc0622c3172fc3",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "2374fc76a5da42d2b1a4316d6a28eff7",
+      "End": "00ccfb2e1dab4fd787a9a405e7957436",
+      "Id": "ca92b0353aa9467aa4a44cadce4e6af8"
+    },
+    {
+      "Start": "6cef9f7ee5134105817306af7f48707d",
+      "End": "51f85dc4ef6848f7b610dc3482d651e9",
+      "Id": "c66b7d17f0764d5b891d3d747b820ab0"
+    },
+    {
+      "Start": "bf0d8fab597c456a93b2543aee16868f",
+      "End": "6de54cab35674d518c6ab33f356494a9",
+      "Id": "ef0b9b1e85724de8919bcd8d6a0c305b"
+    },
+    {
+      "Start": "bf0d8fab597c456a93b2543aee16868f",
+      "End": "e936b33828b54e31b31219e49090b383",
+      "Id": "9fbdccfb435644e7902e303841bca4f5"
+    },
+    {
+      "Start": "53068f6b6bba44e49b076cc31edb830d",
+      "End": "e19c2fb1c772479db4307e50c8ff8859",
+      "Id": "7597aa4860a94148af8f8097848a5bba"
+    },
+    {
+      "Start": "0903ceb2c744410ea2bb9bf9b263aeca",
+      "End": "243c77f17db04c2282fd3c6e14a67736",
+      "Id": "372b095d06f4442e8fbb99096dcdbc4f"
+    },
+    {
+      "Start": "0903ceb2c744410ea2bb9bf9b263aeca",
+      "End": "91b66180cc554b0c8e1967ac052ecb49",
+      "Id": "66509768dfef4a63880f780596fce8f3"
+    },
+    {
+      "Start": "4d3497fcdf2048c899fa6b0c7b136438",
+      "End": "aec8913e33a94d82bb70e1d2d57586bf",
+      "Id": "fdece01aa2bf4268a6081191b45c7376"
+    },
+    {
+      "Start": "4d3497fcdf2048c899fa6b0c7b136438",
+      "End": "25942660c348482fb208f8c68235144f",
+      "Id": "5993e81a41a8445d9a56f25c49c1f463"
+    },
+    {
+      "Start": "721f7048f8044f909ebc0622c3172fc3",
+      "End": "61c93f4326854a449ed62409de859bd8",
+      "Id": "b608e4c96a714bc7b314346dc529e0b5"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Structural Design",
+      "Version": "2021.1.22",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "f28316533924426b84396e4bf2581b85",
+        "701e9db3a4354a618bbedfb6b03f14d6"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.1.11775",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Default Camera",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "Id": "f28316533924426b84396e4bf2581b85",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create.SetSolidInView",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 945.21420050975235,
+        "Y": -0.094337250885530466
+      },
+      {
+        "Id": "701e9db3a4354a618bbedfb6b03f14d6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create.SetUnobscuredInView",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 672.87056808071884,
+        "Y": 0.0
+      },
+      {
+        "Id": "e638d27b8cf547aa98fc8731a4edb2cc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 256.51357136599563,
+        "Y": 17.852185706111982
+      },
+      {
+        "Id": "87a90aeee604491386baa1ae9ace56fd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 0.0,
+        "Y": 0.0
+      },
+      {
+        "Id": "ee71deb739824cd5ae2c1340d439ca88",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1216.8929724416403,
+        "Y": 0.0
+      },
+      {
+        "Id": "eccfe7e0fd8e481bbe2e74de31ffbde9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "If",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 340.09650619199431,
+        "Y": 200.14483281673165
+      },
+      {
+        "Id": "47cf88b1b7db4079a1927d53592b3372",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": -101.63173486418702,
+        "Y": 237.39282946519791
+      },
+      {
+        "Id": "38cead7f4f91414fac4fed3eebad0bc2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1.9570366722418839,
+        "Y": 134.76186263227402
+      }
+    ],
+    "Annotations": [],
+    "X": 135.13116956863047,
+    "Y": 57.77172567071176,
+    "Zoom": 1.6579174832069759
+  }
+}
